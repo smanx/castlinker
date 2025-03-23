@@ -7,10 +7,13 @@ const xml2js = require('xml2js');
 // 定义全局变量来存储 uri
 let storedUri = '';
 
+// 定义端口参数
+const PORT = process.env.CAST_LINKER_PORT || 1900;
+
 // 创建 SSDP 服务器
 const server = new ssdp.Server({
     location: {
-        port: 3000,
+        port: PORT,
         path: '/xml/Description.xml'
     },
     udn: 'uuid:cast-linker-device-id'
@@ -144,8 +147,8 @@ const httpServer = http.createServer((req, res) => {
 });
 
 // 启动 HTTP 服务器
-httpServer.listen(3000, () => {
-    console.log('HTTP 服务器已启动，监听端口 3000');
+httpServer.listen(PORT, () => {
+    console.log(`HTTP 服务器已启动，监听端口 ${PORT}`);
 });
 
 // 处理退出事件
