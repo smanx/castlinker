@@ -3,8 +3,8 @@ name: Build and Push Multi-arch Docker Image
 # 定义触发条件，比如代码推送到main分支时触发
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * *'  # 每天的00:00触发
+  # schedule:
+  #   - cron: '0 0 * * *'  # 每天的00:00触发
   push:
     branches:
       - push-all
