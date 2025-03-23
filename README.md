@@ -15,7 +15,7 @@
 
 ## Implementation
 - Backend node service to fetch and parse the casted video data
-- Frontend adapted from [Qilin Cast](https://github.com/linzxcw/qL-play) to call backend data for video playback
+- Frontend adapted from [qL-play](https://github.com/linzxcw/qL-play) to call backend data for video playback
 <img src="https://github.com/linzxcw/qL-play/blob/main/qL-play-w1.png?raw=true" border="0">
 
 ## Usage
