@@ -41,6 +41,10 @@ or modify the default port and the name of the casting service
 docker run --name castlinker --network host -e CAST_LINKER_PORT=1901 -e FRIENDLY_NAME=MyServerName  smanx/castlinker
 ```
 
+### Limitation
+- The video link for casting needs to support cross-domain access
+- Pages using HTTPS cannot play videos linked via HTTP
+
 ## Acknowledgments  
 - [qL-play](https://github.com/linzxcw/qL-play)
 - [Macast](https://github.com/xfangfang/Macast)

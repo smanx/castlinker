@@ -41,6 +41,10 @@ or修改默认端口和投屏服务的名称
 docker run --name castlinker --network host -e CAST_LINKER_PORT=1901 -e FRIENDLY_NAME=MyServerName  smanx/castlinker
 ```
 
+### 限制
+- 投屏的视频链接需要支持跨域
+- https的页面无法播放http链接的视频
+
 ## 致谢  
 - [麒麟投屏](https://github.com/linzxcw/qL-play)
 - [Macast](https://github.com/xfangfang/Macast)
