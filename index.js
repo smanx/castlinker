@@ -13,7 +13,7 @@ const server = new ssdp.Server({
         port: 3000,
         path: '/xml/Description.xml'
     },
-    udn: 'uuid:your-unique-device-id'
+    udn: 'uuid:cast-linker-device-id'
 });
 
 // 添加设备类型
@@ -26,7 +26,54 @@ server.start(() => {
 
 // 创建 HTTP 服务器处理请求
 const httpServer = http.createServer((req, res) => {
-    if (req.url === '/xml/Description.xml') {
+    if (req.url === '/') {
+        // 提供 HTML 页面
+        const filePath = path.join(__dirname, 'index.html');
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                res.writeHead(500);
+                res.end('Internal Server Error');
+            } else {
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(data);
+            }
+        });
+    } else if (req.url.startsWith('/static')) {
+        // 处理静态文件请求
+        const staticPath = path.join(__dirname, 'static', req.url.slice('/static'.length));
+        fs.readFile(staticPath, (err, data) => {
+            if (err) {
+                res.writeHead(404);
+                res.end('Not Found');
+            } else {
+                const extname = path.extname(staticPath);
+                let contentType = 'text/plain';
+                switch (extname) {
+                    case '.html':
+                        contentType = 'text/html';
+                        break;
+                    case '.css':
+                        contentType = 'text/css';
+                        break;
+                    case '.js':
+                        contentType = 'text/javascript';
+                        break;
+                    case '.png':
+                        contentType = 'image/png';
+                        break;
+                    case '.jpg':
+                    case '.jpeg':
+                        contentType = 'image/jpeg';
+                        break;
+                    case '.json':
+                        contentType = 'application/json';
+                        break;
+                }
+                res.writeHead(200, { 'Content-Type': contentType });
+                res.end(data);
+            }
+        });
+    } else if (req.url === '/xml/Description.xml') {
         // 提供设备描述文件
         const filePath = path.join(__dirname, 'xml/Description.xml');
         fs.readFile(filePath, (err, data) => {
@@ -50,10 +97,7 @@ const httpServer = http.createServer((req, res) => {
                 res.end(data);
             }
         });
-
-    }
-
-    else if (req.url.startsWith('/upnp/control/') || req.url.includes('/AVTransport/action')) {
+    } else if (req.url.startsWith('/upnp/control/') || req.url.includes('/AVTransport/action')) {
         // 处理控制请求
         let body = '';
         req.on('data', chunk => {
@@ -88,6 +132,10 @@ const httpServer = http.createServer((req, res) => {
         // 处理 getUrl 请求
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end(storedUri);
+    }  else if (req.url === '/get_url') {
+        // 处理 get_url 请求，以 JSON 格式返回，url 为 storedUri
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ url: storedUri }));
     } else {
         console.log('收到未知请求:', req.url);
         res.writeHead(404);

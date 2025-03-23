@@ -10,7 +10,7 @@
         <deviceType>urn:schemas-upnp-org:device:MediaRenderer:1</deviceType>
         <!-- 替换为随机生成的 UUID -->
         <UDN>uuid:550e8400-e29b-41d4-a716-446655440000</UDN>
-        <friendlyName>Node.js DLNA Renderer</friendlyName>
+        <friendlyName>Cast Linker</friendlyName>
         <manufacturer>Your Company</manufacturer>
         <manufacturerURL>http://example.com</manufacturerURL>
         <modelDescription>Node.js based DLNA Media Renderer</modelDescription>
