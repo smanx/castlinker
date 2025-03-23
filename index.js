@@ -135,7 +135,7 @@ const httpServer = http.createServer((req, res) => {
         // 处理 getUrl 请求
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end(storedUri);
-    }  else if (req.url === '/get_url') {
+    } else if (req.url === '/get_url') {
         // 处理 get_url 请求，以 JSON 格式返回，url 为 storedUri
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ url: storedUri }));
@@ -157,3 +157,33 @@ process.on('SIGINT', () => {
     httpServer.close();
     process.exit();
 });
+
+
+// 获取环境变量中的 FRIENDLY_NAME
+const friendlyName = process.env.FRIENDLY_NAME || 'Cast Linker';
+
+if (friendlyName) {
+    // 定义 Description.xml 文件的路径
+    const xmlFilePath = path.join(__dirname, 'xml', 'Description.xml');
+
+    // 读取文件内容
+    fs.readFile(xmlFilePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('读取文件时出错:', err);
+            return;
+        }
+
+        // 使用正则表达式替换 friendlyName 标签内的内容
+        const newData = data.replace(/<friendlyName>.*<\/friendlyName>/, `<friendlyName>${friendlyName}</friendlyName>`);
+
+        // 将修改后的内容写回文件
+        fs.writeFile(xmlFilePath, newData, 'utf8', (writeErr) => {
+            if (writeErr) {
+                console.error('写入文件时出错:', writeErr);
+                return;
+            }
+            console.log('friendlyName 已成功更新为:', friendlyName);
+        });
+    });
+}
+
