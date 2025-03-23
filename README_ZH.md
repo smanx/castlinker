@@ -36,9 +36,9 @@ docker运行
 ```
 docker run -d --name castlinker --network host smanx/castlinker
 ```
-or修改默认端口运行
+or修改默认端口和投屏服务的名称
 ```
-docker run -d --name castlinker --network host -e CAST_LINKER_PORT=1901 smanx/castlinker
+docker run --name castlinker --network host -e CAST_LINKER_PORT=1901 -e FRIENDLY_NAME=MyServerName  smanx/castlinker
 ```
 
 ## 致谢  
